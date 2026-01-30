@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useRef } from 'react';
-import { X, ChevronLeft, ChevronRight, Calendar as CalendarIcon, Plus, Trash2, Search, CheckCircle2, Circle, ArrowRight, CircleHelp, Flag, Edit3, Save } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight, Calendar as CalendarIcon, Plus, Trash2, Search, CheckCircle2, Circle, ArrowRight, HelpCircle, Flag, Edit3, Save } from 'lucide-react';
 import { Row, Grade } from '../../types';
 
 interface Props {
@@ -396,7 +396,7 @@ export const CalendarModal: React.FC<Props> = ({ show, onClose, grades, updateDa
                             <div className="flex justify-between items-end mb-2 md:mb-3">
                                 <h4 className="font-bold text-[#796E5B] flex items-center gap-2 text-sm md:text-base"><Circle size={16} /> 待排程 ({unscheduledRows.length})</h4>
                                 <div className="group relative cursor-help">
-                                    <CircleHelp size={14} className="text-[#D6D0C4]" />
+                                    <HelpCircle size={14} className="text-[#D6D0C4]" />
                                     <div className="absolute bottom-full right-0 mb-2 w-48 p-2 bg-[#5E5244] text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
                                         此處顯示尚未設定期限且尚未開始刷題的單元。
                                     </div>

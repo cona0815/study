@@ -3,7 +3,7 @@ import {
     Clock, Settings, Save, Upload, RotateCcw, Layers, Plus, X, 
     BarChart2, Book, Timer, Search, Edit2, AlertCircle, Check,
     Bot, ArrowRight, Download, FileText, Target, Trophy, CheckSquare, Calendar,
-    Cloud, CloudDownload, Copy, ExternalLink, Code, Trash2, GripVertical, Palette,
+    Cloud, DownloadCloud, Copy, ExternalLink, Code, Trash2, GripVertical, Palette,
     Wifi, WifiOff
 } from 'lucide-react';
 import { 
@@ -526,7 +526,7 @@ export default function App() {
                                 {hasUnsavedChanges && <span className="absolute top-1 right-1 w-2.5 h-2.5 bg-[#F43F5E] border-2 border-white rounded-full animate-pulse"></span>}
                                 <Cloud size={18} /> <span className="hidden md:inline">儲存</span>
                             </button>
-                            <button onClick={handleCloudLoad} disabled={isSyncing} className="flex-1 md:flex-none cursor-pointer flex items-center justify-center gap-1 px-3 py-2 rounded-lg text-sm font-bold text-[#796E5B] hover:bg-[#F3F0E6] hover:text-[#8CD19D] transition-all disabled:opacity-50 shrink-0 min-w-[70px]" title="從雲端下載"><CloudDownload size={18} /> <span className="hidden md:inline">讀取</span></button>
+                            <button onClick={handleCloudLoad} disabled={isSyncing} className="flex-1 md:flex-none cursor-pointer flex items-center justify-center gap-1 px-3 py-2 rounded-lg text-sm font-bold text-[#796E5B] hover:bg-[#F3F0E6] hover:text-[#8CD19D] transition-all disabled:opacity-50 shrink-0 min-w-[70px]" title="從雲端下載"><DownloadCloud size={18} /> <span className="hidden md:inline">讀取</span></button>
                             <div className="hidden md:block w-px h-6 bg-[#D6D0C4] mx-1 self-center shrink-0"></div>
                             <button onClick={() => setShowSettings(true)} className="flex-1 md:flex-none flex items-center justify-center gap-1 px-3 py-2 rounded-lg text-sm font-bold text-[#796E5B] hover:bg-[#F3F0E6] hover:text-[#55A47B] transition-all shrink-0 min-w-[70px]"><Settings size={18} /> <span className="hidden md:inline">設定</span></button>
                             <div className="hidden md:block w-px h-6 bg-[#D6D0C4] mx-1 self-center shrink-0"></div>

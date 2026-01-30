@@ -1,5 +1,5 @@
 {
-  "name": "學習島V7.0",
+  "name": "Copy of 學習島 正式版1.0",
   "description": "A gamified study logger with pomodoro timer, library management, and analytics.",
   "requestFramePermissions": [
     "microphone"

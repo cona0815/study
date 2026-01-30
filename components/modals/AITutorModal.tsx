@@ -20,6 +20,7 @@ interface Props {
     subject: string;
     triggerAlert: (msg: string) => void;
     onSaveToNote?: (content: string) => void;
+    apiKey: string;
 }
 
 type Mode = 'menu' | 'explain' | 'quiz' | 'solve';
@@ -172,7 +173,7 @@ const MermaidDiagram = ({ code }: { code: string }) => {
     );
 };
 
-export const AITutorModal: React.FC<Props> = ({ show, onClose, topic, grade, subject, triggerAlert, onSaveToNote }) => {
+export const AITutorModal: React.FC<Props> = ({ show, onClose, topic, grade, subject, triggerAlert, onSaveToNote, apiKey }) => {
     const [mode, setMode] = useState<Mode>('menu');
     const [loading, setLoading] = useState(false);
     const [explanation, setExplanation] = useState("");
@@ -186,8 +187,14 @@ export const AITutorModal: React.FC<Props> = ({ show, onClose, topic, grade, sub
     const [solvePrompt, setSolvePrompt] = useState("");
     const fileInputRef = useRef<HTMLInputElement>(null);
 
-    // Initialize API client dynamically to prevent 'process' error on render
-    const getAI = () => new GoogleGenAI({ apiKey: process.env.API_KEY });
+    // Initialize API client dynamically using the passed prop
+    const getAI = () => {
+        if (!apiKey) {
+            triggerAlert("❌ 請先在「設定」中填寫您的 Gemini API Key 才能使用 AI 功能喔！");
+            throw new Error("Missing API Key");
+        }
+        return new GoogleGenAI({ apiKey });
+    };
 
     // Reset state when closing or changing topics
     useEffect(() => {
@@ -219,6 +226,10 @@ export const AITutorModal: React.FC<Props> = ({ show, onClose, topic, grade, sub
 
     const handleSolve = async () => {
         if (!solveImage) return triggerAlert("請先上傳圖片");
+        try {
+            getAI(); // Check key first
+        } catch(e) { return; }
+
         setLoading(true);
         setExplanation("");
         
@@ -256,13 +267,17 @@ export const AITutorModal: React.FC<Props> = ({ show, onClose, topic, grade, sub
             }
         } catch (error) {
             console.error(error);
-            triggerAlert("解題失敗，請稍後再試。");
+            triggerAlert("解題失敗，請檢查 API Key 是否正確或額度是否足夠。");
         } finally {
             setLoading(false);
         }
     };
 
     const handleExplain = async () => {
+        try {
+            getAI(); // Check key first
+        } catch(e) { return; }
+
         setMode('explain');
         setLoading(true);
         setExplanation("");
@@ -323,11 +338,15 @@ export const AITutorModal: React.FC<Props> = ({ show, onClose, topic, grade, sub
         } catch (error) {
             console.error(error);
             setLoading(false);
-            setExplanation("❌ 連線發生錯誤，請稍後再試。\n\n(請確認您已選取有效的 API Key)");
+            setExplanation("❌ 連線發生錯誤，請稍後再試。\n\n(請確認您的 API Key 是否正確)");
         }
     };
 
     const handleQuiz = async () => {
+        try {
+            getAI(); // Check key first
+        } catch(e) { return; }
+
         setMode('quiz');
         setLoading(true);
         setQuizData([]);
@@ -371,7 +390,7 @@ export const AITutorModal: React.FC<Props> = ({ show, onClose, topic, grade, sub
             }
         } catch (error) {
             console.error(error);
-            triggerAlert("生成測驗失敗，請稍後再試。");
+            triggerAlert("生成測驗失敗，請檢查 API Key。");
             setMode('menu');
         } finally {
             setLoading(false);

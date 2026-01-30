@@ -22,7 +22,8 @@ export const DEFAULT_SETTINGS: AppSettings = {
   appTitle: "Island Study Log",
   appSubtitle: "V7.0 Release",
   gasUrl: "",
-  autoCloudSave: false
+  autoCloudSave: false,
+  googleApiKey: ""
 };
 
 export const DEFAULT_USER_DATA: UserData = { exp: 0, logs: {} };

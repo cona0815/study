@@ -63,6 +63,7 @@ export interface AppSettings {
   appSubtitle?: string;
   gasUrl?: string;
   autoCloudSave?: boolean;
+  googleApiKey?: string;
 }
 
 export interface LibraryItem {

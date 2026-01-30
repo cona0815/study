@@ -4,7 +4,7 @@ import {
     BarChart2, Book, Timer, Search, Edit2, AlertCircle, Check,
     Bot, ArrowRight, Download, FileText, Target, Trophy, CheckSquare, Calendar,
     Cloud, DownloadCloud, Copy, ExternalLink, Code, Trash2, GripVertical, Palette,
-    Wifi, WifiOff
+    Wifi, WifiOff, Key
 } from 'lucide-react';
 import { 
     UserData, Grade, AppSettings, LibraryItem, DialogState, Row 
@@ -608,6 +608,7 @@ export default function App() {
                 subject={aiTutorState.subject}
                 triggerAlert={triggerAlert}
                 onSaveToNote={handleAiMemoSave}
+                apiKey={settings.googleApiKey || ""}
             />
 
             <MemoModal 
@@ -646,6 +647,28 @@ export default function App() {
                         <div className="flex justify-between items-center mb-6 border-b pb-2"><h3 className="text-xl font-bold text-[#5E5244] flex items-center gap-2"><Settings /> 系統設定</h3><button onClick={() => setShowSettings(false)} className="hover:bg-[#F3F0E6] p-1 rounded-full transition-colors"><X size={24}/></button></div>
                         <div className="space-y-8">
                             <div><label className="block text-sm font-bold text-[#9C9283] mb-4">應用程式標題與副標題</label><div className="space-y-3"><div><span className="text-xs font-bold text-[#9C9283] block mb-1">主標題</span><input type="text" className="w-full p-3 rounded-xl border-2 border-[#E5E7EB] font-bold text-[#5E5244] focus:border-[#8CD19D] outline-none bg-[#FDFBF7]" value={settings.appTitle || ""} onChange={(e) => setSettings({...settings, appTitle: e.target.value})} placeholder="例如: 我的讀書島嶼" /></div><div><span className="text-xs font-bold text-[#9C9283] block mb-1">副標題</span><input type="text" className="w-full p-3 rounded-xl border-2 border-[#E5E7EB] font-bold text-[#5E5244] focus:border-[#8CD19D] outline-none bg-[#FDFBF7]" value={settings.appSubtitle || ""} onChange={(e) => setSettings({...settings, appSubtitle: e.target.value})} placeholder="例如: 112 學年度衝刺計畫" /></div></div></div>
+                            <div>
+                                <label className="block text-sm font-bold text-[#8CD19D] mb-2 flex items-center gap-1"><Bot size={16}/> AI 萬能家教設定 (Google Gemini)</label>
+                                <div className="bg-[#F0FDF4] p-4 rounded-xl border border-[#B7E4C7] mb-2">
+                                    <div className="flex items-center gap-2 mb-2">
+                                        <Key size={16} className="text-[#166534]" />
+                                        <span className="text-sm font-bold text-[#166534]">Gemini API Key</span>
+                                    </div>
+                                    <input 
+                                        type="password" 
+                                        className="w-full p-3 rounded-xl border-2 border-[#B7E4C7] font-bold text-[#166534] focus:border-[#8CD19D] outline-none bg-white text-xs mb-2" 
+                                        value={settings.googleApiKey || ""} 
+                                        onChange={(e) => setSettings({...settings, googleApiKey: e.target.value})} 
+                                        placeholder="貼上您的 API Key..." 
+                                    />
+                                    <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noreferrer" className="text-[10px] text-[#16a34a] hover:underline flex items-center gap-1 font-bold">
+                                        <ExternalLink size={10} /> 前往 Google AI Studio 免費申請 Key
+                                    </a>
+                                </div>
+                                <p className="text-[10px] text-[#9C9283] leading-relaxed">
+                                    ℹ️ 您的 Key 將儲存在您瀏覽器的 LocalStorage 中，不會傳送給我們，請安心使用。
+                                </p>
+                            </div>
                             <div><label className="block text-sm font-bold text-[#8CD19D] mb-2">Google Apps Script (GAS) 連結 - 連結 Google 試算表</label><div className="flex items-center gap-2 mb-2"><input type="text" className="w-full p-3 rounded-xl border-2 border-[#E5E7EB] font-bold text-[#5E5244] focus:border-[#8CD19D] outline-none bg-[#FDFBF7] text-xs" value={settings.gasUrl || ""} onChange={(e) => setSettings({...settings, gasUrl: e.target.value})} placeholder="https://script.google.com/macros/s/..." /></div>
                                 <div className="flex items-center justify-between bg-[#F0FDF4] p-3 rounded-xl border border-[#B7E4C7] mb-2"><div className="flex items-center gap-2">{settings.autoCloudSave ? <Wifi size={20} className="text-[#166534]"/> : <WifiOff size={20} className="text-gray-400"/>}<div className="flex flex-col"><span className="text-sm font-bold text-[#166534]">自動雲端備份</span><span className="text-[10px] text-[#15803d]">每 30 分鐘自動上傳變更</span></div></div><button onClick={() => setSettings({...settings, autoCloudSave: !settings.autoCloudSave})} className={`w-12 h-6 rounded-full p-1 transition-colors ${settings.autoCloudSave ? 'bg-[#16a34a]' : 'bg-gray-300'}`}><div className={`w-4 h-4 rounded-full bg-white shadow-sm transition-transform ${settings.autoCloudSave ? 'translate-x-6' : ''}`}></div></button></div>
                                 <button onClick={() => setShowGasGuide(true)} className="w-full py-2 bg-[#F0FDF4] text-[#55A47B] font-bold rounded-xl border border-[#B7E4C7] hover:bg-[#DCFCE7] flex items-center justify-center gap-2 text-sm mb-2"><Code size={16} /> 📝 顯示 GAS 安裝教學 & 程式碼</button><div className="text-[11px] text-[#9C9283] mt-2 bg-[#F3F0E6] p-2 rounded-lg leading-relaxed"><p className="font-bold mb-1">ℹ️ 關於資料儲存：</p><ul className="list-disc pl-4 space-y-1"><li><b>未填寫此欄位時：</b>資料僅儲存在<b>這台裝置的瀏覽器 (Local Storage)</b>。</li><li><b>填寫後：</b>資料會同步到您的 <b>Google 試算表</b>。</li></ul></div></div>
